@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wenhui Xue (Emma) | AI & Machine Learning Portfolio</title>
+  <style>
+    :root {
+      --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --muted: #94a3b8;
+      --accent: #38bdf8; --accent-hover: #0284c7; --border: #334155;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.6;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    /* 顶部导航 */
+    nav {
+      position: sticky; top: 0; z-index: 50; backdrop-filter: blur(12px);
+      background: rgba(15, 23, 42, 0.85); border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo { font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; }
+    .nav-right { display: flex; gap: 1rem; align-items: center; }
+    .btn-lang {
+      background: var(--card); color: var(--text); border: 1px solid var(--border);
+      padding: 0.4rem 0.9rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem;
+    }
+    .btn-lang:hover { border-color: var(--accent); }
+    .container { max-width: 1000px; margin: 0 auto; padding: 3rem 1.5rem; }
+    /* 个人介绍区 */
+    .hero { margin-bottom: 4rem; }
+    .hero h1 { font-size: 2.5rem; margin-bottom: 0.8rem; }
+    .hero h1 span { color: var(--accent); }
+    .hero p { color: var(--muted); font-size: 1.1rem; max-width: 720px; margin-bottom: 1.5rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.8rem; }
+    .tag {
+      background: rgba(56, 189, 248, 0.12); color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.3); padding: 0.3rem 0.8rem;
+      border-radius: 999px; font-size: 0.85rem;
+    }
+    /* 模块标题 */
+    .section-title { font-size: 1.6rem; margin-bottom: 1.5rem; border-left: 4px solid var(--accent); padding-left: 0.8rem; }
+    /* 项目与交互卡片 */
+    .project-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 1.8rem; margin-bottom: 2rem;
+    }
+    .project-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+    .project-title { font-size: 1.35rem; font-weight: 600; }
+    .tabs { display: flex; gap: 0.5rem; margin: 1.2rem 0; }
+    .tab-btn {
+      background: var(--bg); color: var(--muted); border: 1px solid var(--border);
+      padding: 0.45rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem;
+    }
+    .tab-btn.active { background: var(--accent); color: #0f172a; border-color: var(--accent); font-weight: 600; }
+    .tab-content { display: none; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; }
+    .tab-content.active { display: block; }
+    /* 架构图点击放大 */
+    .arch-box { text-align: center; cursor: zoom-in; }
+    .arch-box svg { max-width: 100%; height: auto; border-radius: 6px; }
+    .zoom-hint { font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; }
+    /* 全屏弹窗 */
+    .modal {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88);
+      z-index: 100; justify-content: center; align-items: center; padding: 2rem; cursor: zoom-out;
+    }
+    .modal.open { display: flex; }
+    .modal-inner { width: 90%; max-width: 1100px; background: #0f172a; padding: 2rem; border-radius: 12px; border: 1px solid var(--border); }
+    /* 交互演示画布 */
+    .demo-controls { display: flex; gap: 0.8rem; align-items: center; margin-bottom: 0.8rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent); color: #0f172a; border: none; padding: 0.45rem 1rem;
+      border-radius: 6px; font-weight: 600; cursor: pointer;
+    }
+    .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+    canvas { width: 100%; height: 240px; background: #090d16; border-radius: 6px; display: block; cursor: crosshair; }
+    footer { text-align: center; color: var(--muted); padding: 2rem; border-top: 1px solid var(--border); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">Wenhui Xue (Emma)</div>
+    <div class="nav-right">
+      <a href="https://github.com/wenhuixue181-code" target="_blank">GitHub ↗</a>
+      <button class="btn-lang" onclick="toggleLang()" id="langBtn">切换英文 / EN</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- 个人简介 -->
+    <section class="hero">
+      <h1>Hi 👋, I'm <span>Wenhui Xue (Emma)</span></h1>
+      <p data-zh="计算机科学硕士在读，专注于 AI 应用开发、机器学习以及黑盒优化与演化计算（Evolutionary Computation）。欢迎来到我的个人作品集与交互演示空间。"
+         data-en="Computer Science Master's Student interested in AI application development, Machine Learning, Black-Box Optimization, and Evolutionary Computation.">
+         计算机科学硕士在读，专注于 AI 应用开发、机器学习以及黑盒优化与演化计算（Evolutionary Computation）。欢迎来到我的个人作品集与交互演示空间。
+      </p>
+      <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">Java</span>
+        <span class="tag">Machine Learning</span>
+        <span class="tag">AI Applications</span>
+        <span class="tag">Black-Box Optimization</span>
+        <span class="tag">Evolutionary Computation</span>
+      </div>
+    </section>
+
+    <!-- 核心项目展示（含架构图与交互演示） -->
+    <h2 class="section-title" data-zh="核心作品集与交互演示" data-en="Featured Projects & Interactive Demos">核心作品集与交互演示</h2>
+
+    <!-- 项目 1：带架构图 + 在线交互 Demo -->
+    <div class="project-card">
+      <div class="project-header">
+        <div>
+          <div class="project-title" data-zh="项目一：AI 智能应用与演化优化算法可视化平台（示例模板）" data-en="Project 1: AI Agent & Evolutionary Optimization Visualizer">
+            项目一：AI 智能应用与演化优化算法可视化平台（示例模板）
+          </div>
+          <p style="color: var(--muted); font-size: 0.95rem; margin-top: 0.4rem;"
+             data-zh="在此处填写你的项目一句话简介：结合大语言模型与演化计算算法，实现复杂参数空间的自动寻优与调度。"
+             data-en="Brief project overview: Combining LLMs and evolutionary algorithms for automated hyperparameter and black-box optimization.">
+             在此处填写你的项目一句话简介：结合大语言模型与演化计算算法，实现复杂参数空间的自动寻优与调度。
+          </p>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(event, 'demo1')" data-zh="⚡ 在线交互演示" data-en="⚡ Live Interactive Demo">⚡ 在线交互演示</button>
+        <button class="tab-btn" onclick="switchTab(event, 'arch1')" data-zh="📐 系统架构图 (可放大)" data-en="📐 System Architecture (Zoomable)">📐 系统架构图 (可放大)</button>
+      </div>
+
+      <!-- 选项卡 1：交互演示 -->
+      <div id="demo1" class="tab-content active">
+        <div class="demo-controls">
+          <button class="btn-primary" onclick="restartPSO()" data-zh="🔄 重新运行演化寻优" data-en="🔄 Run Optimization">🔄 重新运行演化寻优</button>
+          <span style="font-size: 0.85rem; color: var(--muted);" id="iterText">提示：鼠标点击黑色画布任意位置可改变全局最优目标点 (Global Optimum)</span>
+        </div>
+        <canvas id="psoCanvas" width="800" height="240"></canvas>
+      </div>
+
+      <!-- 选项卡 2：矢量系统架构图 -->
+      <div id="arch1" class="tab-content">
+        <div class="arch-box" onclick="openModal()" title="点击全屏放大">
+          <svg id="archSvg" viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+            <rect width="800" height="220" rx="8" fill="#090d16"/>
+            <!-- 节点 1 -->
+            <rect x="30" y="70" width="140" height="80" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+            <text x="100" y="105" fill="#f8fafc" font-size="14" text-anchor="middle" font-weight="bold">用户输入 / 任務</text>
+            <text x="100" y="128" fill="#94a3b8" font-size="12" text-anchor="middle">Input &amp; Constraints</text>
+            <!-- 箭头 1 -->
+            <path d="M 170 110 L 230 110" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)"/>
+            <!-- 节点 2 -->
+            <rect x="230" y="50" width="160" height="120" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+            <text x="310" y="90" fill="#38bdf8" font-size="14" text-anchor="middle" font-weight="bold">AI 决策与特征层</text>
+            <text x="310" y="115" fill="#f8fafc" font-size="12" text-anchor="middle">LLM / ML Pipeline</text>
+            <text x="310" y="140" fill="#94a3b8" font-size="11" text-anchor="middle">Python / PyTorch</text>
+            <!-- 箭头 2 -->
+            <path d="M 390 110 L 450 110" stroke="#38bdf8" stroke-width="2"/>
+            <!-- 节点 3 -->
+            <rect x="450" y="50" width="160" height="120" rx="8" fill="#1e293b" stroke="#a855f7" stroke-width="2"/>
+            <text x="530" y="90" fill="#c084fc" font-size="14" text-anchor="middle" font-weight="bold">黑盒优化引擎</text>
+            <text x="530" y="115" fill="#f8fafc" font-size="12" text-anchor="middle">Evolutionary Solver</text>
+            <text x="530" y="140" fill="#94a3b8" font-size="11" text-anchor="middle">Population Update</text>
+            <!-- 箭头 3 -->
+            <path d="M 610 110 L 660 110" stroke="#38bdf8" stroke-width="2"/>
+            <!-- 节点 4 -->
+            <rect x="660" y="70" width="110" height="80" rx="8" fill="#1e293b" stroke="#22c55e" stroke-width="2"/>
+            <text x="715" y="105" fill="#4ade80" font-size="14" text-anchor="middle" font-weight="bold">最优解输出</text>
+            <text x="715" y="128" fill="#94a3b8" font-size="12" text-anchor="middle">Optimal Policy</text>
+          </svg>
+          <div class="zoom-hint" data-zh="🔍 点击架构图可全屏无损放大查看细节" data-en="🔍 Click diagram to zoom in full screen">🔍 点击架构图可全屏无损放大查看细节</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 架构图全屏放大弹窗 -->
+  <div class="modal" id="imgModal" onclick="closeModal()">
+    <div class="modal-inner" id="modalContent"></div>
+  </div>
+
+  <footer>
+    © 2026 Wenhui Xue (Emma) · Hosted on Cloudflare Pages · <a href="https://wenhuixue.com">wenhuixue.com</a>
+  </footer>
+
+  <script>
+    // 1. 中英双语切换
+    let currentLang = 'zh';
+    function toggleLang() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      document.getElementById('langBtn').innerText = currentLang === 'zh' ? '切换英文 / EN' : '中文 / ZH';
+      document.querySelectorAll('[data-zh]').forEach(el => {
+        el.innerText = el.getAttribute('data-' + currentLang);
+      });
+    }
+
+    // 2. 选项卡切换
+    function switchTab(e, tabId) {
+      const card = e.target.closest('.project-card');
+      card.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      card.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      e.target.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    // 3. 架构图全屏放大
+    function openModal() {
+      const svgClone = document.getElementById('archSvg').outerHTML;
+      document.getElementById('modalContent').innerHTML = svgClone;
+      document.getElementById('imgModal').classList.add('open');
+    }
+    function closeModal() {
+      document.getElementById('imgModal').classList.remove('open');
+    }
+
+    // 4. 演化计算/粒子群黑盒寻优交互演示 (Canvas)
+    const canvas = document.getElementById('psoCanvas');
+    const ctx = canvas.getContext('2d');
+    let target = { x: 620, y: 120 };
+    let particles = [];
+    function initParticles() {
+      particles = Array.from({ length: 45 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 4,
+        vy: (Math.random() - 0.5) * 4
+      }));
+    }
+    function restartPSO() { initParticles(); }
+    canvas.addEventListener('click', e => {
+      const rect = canvas.getBoundingClientRect();
+      target.x = (e.clientX - rect.left) * (canvas.width / rect.width);
+      target.y = (e.clientY - rect.top) * (canvas.height / rect.height);
+      initParticles();
+    });
+    function animate() {
+      ctx.fillStyle = 'rgba(9, 13, 22, 0.25)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // 绘制等高线光圈与目标点
+      [60, 35, 15].forEach(r => {
+        ctx.beginPath(); ctx.arc(target.x, target.y, r, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(34, 197, 94, 0.2)'; ctx.stroke();
+      });
+      ctx.beginPath(); ctx.arc(target.x, target.y, 6, 0, Math.PI * 2);
+      ctx.fillStyle = '#22c55e'; ctx.fill();
+      // 更新种群位置
+      particles.forEach(p => {
+        p.vx = 0.85 * p.vx + 0.04 * (target.x - p.x) + (Math.random() - 0.5) * 1.2;
+        p.vy = 0.85 * p.vy + 0.04 * (target.y - p.y) + (Math.random() - 0.5) * 1.2;
+        p.x += p.vx; p.y += p.vy;
+        ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+        ctx.fillStyle = '#38bdf8'; ctx.fill();
+      });
+      requestAnimationFrame(animate);
+    }
+    initParticles(); animate();
+  </script>
+</body>
+</html>
