@@ -74,50 +74,50 @@
     }
     .btn-primary:hover { background: var(--accent-hover); color: #fff; }
     canvas { width: 100%; height: 230px; background: #070b14; border-radius: 6px; display: block; cursor: crosshair; }
-    /* 项目2 安卓手机模拟器 */
-    .phone-demo-wrap { display: grid; grid-template-columns: 300px 1fr; gap: 1.5rem; align-items: center; }
-    @media (max-width: 768px) { .phone-demo-wrap { grid-template-columns: 1fr; } }
-    .phone-mockup {
-      width: 280px; margin: 0 auto; background: #0f172a; border: 6px solid #334155;
-      border-radius: 28px; overflow: hidden; box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+
+    /* 项目2 真机截图交互画廊 */
+    .gallery-grid { display: grid; grid-template-columns: 270px 1fr; gap: 1.2rem; align-items: start; }
+    @media (max-width: 768px) { .gallery-grid { grid-template-columns: 1fr; } }
+    .step-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .step-btn {
+      text-align: left; background: #131c31; border: 1px solid var(--border); color: #cbd5e1;
+      padding: 0.65rem 0.9rem; border-radius: 8px; cursor: pointer; transition: 0.2s; font-size: 0.86rem;
     }
-    .phone-statusbar {
-      background: #1e293b; padding: 0.35rem 1rem; font-size: 0.72rem; color: var(--muted);
-      display: flex; justify-content: space-between;
+    .step-btn:hover { border-color: var(--accent); }
+    .step-btn.active {
+      background: rgba(56, 189, 248, 0.15); border-color: var(--accent); color: #fff; font-weight: 600;
     }
-    .phone-weather {
-      background: linear-gradient(135deg, #0284c7, #38bdf8); color: #fff;
-      padding: 0.7rem 0.9rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;
+    .step-btn small { display: block; color: var(--muted); font-size: 0.76rem; margin-top: 0.15rem; font-weight: normal; }
+    .screen-viewer {
+      background: #070b14; border: 1px solid var(--border); border-radius: 10px;
+      padding: 1rem; text-align: center;
     }
-    .phone-body { padding: 0.85rem; min-height: 210px; background: #0b1120; }
-    .style-pills { display: flex; gap: 0.4rem; margin-bottom: 0.75rem; }
-    .pill {
-      font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 99px; cursor: pointer;
-      background: #1e293b; color: var(--muted); border: 1px solid var(--border);
+    .screen-img-wrap {
+      display: flex; justify-content: center; align-items: center; min-height: 360px;
+      cursor: zoom-in;
     }
-    .pill.active { background: rgba(56, 189, 248, 0.2); color: var(--accent); border-color: var(--accent); font-weight: 600; }
-    .outfit-card {
-      background: #1e293b; border: 1px solid var(--border); border-radius: 8px;
-      padding: 0.7rem; font-size: 0.82rem; margin-bottom: 0.5rem;
+    .screen-img-wrap img {
+      max-height: 430px; max-width: 100%; width: auto; border-radius: 8px;
+      border: 2px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.6);
     }
-    .outfit-title { font-weight: 600; color: #fff; margin-bottom: 0.25rem; }
-    .outfit-sub { color: var(--muted); font-size: 0.76rem; }
-    .phone-navbar {
-      display: grid; grid-template-columns: repeat(3, 1fr); background: #1e293b;
-      border-top: 1px solid var(--border); text-align: center; font-size: 0.75rem;
+    .screen-caption {
+      margin-top: 0.75rem; font-size: 0.85rem; color: var(--accent); font-weight: 500;
     }
-    .phone-nav-item { padding: 0.55rem 0; cursor: pointer; color: var(--muted); }
-    .phone-nav-item.active { color: var(--accent); font-weight: 600; background: rgba(56,189,248,0.08); }
+
     /* 架构图与弹窗 */
     .arch-box { text-align: center; cursor: zoom-in; }
     .arch-box svg { max-width: 100%; height: auto; border-radius: 6px; }
     .zoom-hint { font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; }
     .modal {
-      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92);
       z-index: 100; justify-content: center; align-items: center; padding: 1.5rem; cursor: zoom-out;
     }
     .modal.open { display: flex; }
-    .modal-inner { width: 95%; max-width: 1100px; background: #0b1120; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border); }
+    .modal-inner {
+      width: 95%; max-width: 1100px; max-height: 92vh; overflow: auto;
+      background: #0b1120; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border); text-align: center;
+    }
+    .modal-inner img { max-height: 82vh; max-width: 100%; border-radius: 8px; }
     footer { text-align: center; color: var(--muted); padding: 2rem; border-top: 1px solid var(--border); font-size: 0.85rem; }
   </style>
 </head>
@@ -148,7 +148,7 @@
       <div class="tags">
         <span class="tag">Python</span>
         <span class="tag">FastAPI &amp; Pydantic</span>
-        <span class="tag">LLM Applications</span>
+        <span class="tag">LLM Agent &amp; RAG</span>
         <span class="tag">scikit-learn &amp; 优化算法</span>
         <span class="tag">Java (Android)</span>
         <span class="tag">C++ (Qt / OpenCV)</span>
@@ -157,7 +157,7 @@
       </div>
     </section>
 
-    <h2 class="section-title" data-zh="核心项目作品集（含在线交互演示与系统架构图）" data-en="Featured Projects & Interactive Demos">核心项目作品集（含在线交互演示与系统架构图）</h2>
+    <h2 class="section-title" data-zh="核心项目作品集（含在线交互演示、真机运行实拍与系统架构图）" data-en="Featured Projects, Live Demos & System Architectures">核心项目作品集（含在线交互演示、真机运行实拍与系统架构图）</h2>
 
     <!-- ==================== 项目一：GreenBuildAI ==================== -->
     <div class="project-card">
@@ -214,7 +214,7 @@
       </div>
 
       <div id="gb-arch" class="tab-content">
-        <div class="arch-box" onclick="openModal('svg1')">
+        <div class="arch-box" onclick="openModalSvg('svg1')">
           <svg id="svg1" viewBox="0 0 860 250" xmlns="http://www.w3.org/2000/svg">
             <rect width="860" height="250" rx="8" fill="#070b14"/>
             <rect x="25" y="45" width="165" height="160" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
@@ -251,127 +251,124 @@
       <div class="project-title" data-zh="2. VirtualCloset —— 基于 Android 的智能虚拟衣橱与场景穿搭推荐系统（大赛获奖作品）" data-en="2. VirtualCloset — Android Smart Wardrobe & Weather-Aware Outfit Recommendation App">
         2. VirtualCloset —— 基于 Android 的智能虚拟衣橱与场景穿搭推荐系统（大赛获奖作品）
       </div>
-      <div class="project-role">Java · Android Studio · SQL Server / SQLite · 实时天气 API · 第三方社交分享 SDK</div>
+      <div class="project-role">Java · Android Studio · SQL Server / SQLite · 多城市实时天气 API · 社交动态流</div>
       <p class="project-desc"
-         data-zh="中国大学生计算机设计大赛参赛作品（获华北五省及港澳台计算机应用大赛二等奖）。针对日常衣物管理繁琐与穿搭决策痛点，开发集“数字化衣柜分类管理、实时天气感知穿搭推荐、穿搭动态社交广场”于一体的原生 Android 应用。"
-         data-en="Award-winning Android mobile application featuring digital wardrobe categorization, real-time weather-driven outfit matching, and a community style feed.">
-         中国大学生计算机设计大赛参赛作品（获华北五省及港澳台计算机应用大赛二等奖）。针对日常衣物管理繁琐与穿搭决策痛点，开发集“数字化衣柜分类管理、实时天气感知穿搭推荐、穿搭动态社交广场”于一体的原生 Android 应用。
+         data-zh="中国大学生计算机设计大赛参赛作品（获华北五省及港澳台计算机应用大赛二等奖）。针对日常衣物管理繁琐与穿搭决策痛点，开发集“7大品类数字化衣柜管理、多城市实时天气感知穿搭推荐、衣友圈社区动态广场”于一体的原生 Android 应用。"
+         data-en="Award-winning Android mobile application featuring 7-category digital wardrobe management, multi-city real-time weather outfit recommendations, and a community style feed.">
+         中国大学生计算机设计大赛参赛作品（获华北五省及港澳台计算机应用大赛二等奖）。针对日常衣物管理繁琐与穿搭决策痛点，开发集“7大品类数字化衣柜管理、多城市实时天气感知穿搭推荐、衣友圈社区动态广场”于一体的原生 Android 应用。
       </p>
       <ul class="bullet-list">
-        <li data-zh="三层视图架构与多机型适配：基于 Java 与 Android Studio 设计“登录认证、主控动态看板、侧边栏功能矩阵”架构，采用 Nine-Patch (.9.png) 与屏幕密度动态换算实现多分辨率自适应。"
-            data-en="Three-Tier UI Architecture: Built login auth, main weather/feed dashboard, and sidebar navigation in Java, utilizing Nine-Patch graphics and dp/px density scaling for multi-screen adaptation.">
-            <strong>三层视图架构与多机型适配：</strong>基于 Java 与 Android Studio 设计“登录认证、主控动态看板、侧边栏功能矩阵”架构，采用 Nine-Patch (.9.png) 与屏幕密度动态换算实现多分辨率自适应。
+        <li data-zh="多城市天气 API 联动与智能穿衣指数：接入实时天气 API 动态渲染城市温湿度与体感温度（如北京 13°C 与银川 25°C 场景自适应），自动生成分季节穿衣贴士。"
+            data-en="Multi-City Weather API Integration: Dynamically fetches temperature and feels-like metrics across cities to provide adaptive outfit thickness recommendations.">
+            <strong>多城市天气 API 联动与智能穿衣指数：</strong>接入实时天气 API 动态渲染城市温湿度与体感温度（如北京 13°C 与银川 25°C 场景自适应），自动生成分季节穿衣贴士。
         </li>
-        <li data-zh="天气 API 联动与多维标签匹配：接入实时天气 API 推送温湿度状态，结合衣物风格（休闲/复古/通勤）与季节属性标签库，实现免试穿场景化服饰搭配推荐及社区动态筛选。"
-            data-en="Weather API Integration & Tag Matching: Integrated real-time weather APIs with multi-dimensional clothing tags (season, style, category) for automated outfit recommendations.">
-            <strong>天气 API 联动与多维标签匹配：</strong>接入实时天气 API 推送温湿度状态，结合衣物风格（休闲/复古/通勤）与季节属性标签库，实现免试穿场景化服饰搭配推荐及社区动态筛选。
+        <li data-zh="7大品类衣柜管理与6宫格成套搭配：支持外套、上衣、裤子、长款衣、配饰、鞋子分类上传与网格管理；基于 7 大风格标签（春夏/秋冬/复古/淑女/田园/街头/混搭）一键生成 6 宫格成套穿搭方案。"
+            data-en="7-Category Wardrobe & 6-Grid Outfit Generator: Supports categorized clothing upload and multi-tag style filtering to generate complete 6-grid outfit collages.">
+            <strong>7大品类衣柜管理与6宫格成套搭配：</strong>支持外套、上衣、裤子、长款衣、配饰、鞋子分类上传与网格管理；基于 7 大风格标签（春夏/秋冬/复古/淑女/田园/街头/混搭）一键生成 6 宫格成套穿搭方案。
         </li>
       </ul>
 
       <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab(event, 'vc-arch')" data-zh="📐 软件总体框架与界面架构图 (点击可放大)" data-en="📐 System & UI Architecture (Click to Zoom)">📐 软件总体框架与界面架构图 (点击可放大)</button>
-        <button class="tab-btn" onclick="switchTab(event, 'vc-demo')" data-zh="📱 交互演示：Android 客户端界面模拟器" data-en="📱 Live Demo: Android App Simulator">📱 交互演示：Android 客户端界面模拟器</button>
+        <button class="tab-btn active" onclick="switchTab(event, 'vc-real')" data-zh="📱 真机运行实拍交互预览 (6大核心界面)" data-en="📱 Real Device Screenshots (Interactive)">📱 真机运行实拍交互预览 (6大核心界面)</button>
+        <button class="tab-btn" onclick="switchTab(event, 'vc-arch')" data-zh="📐 软件总体框架与界面架构图 (点击可放大)" data-en="📐 System & UI Architecture (Click to Zoom)">📐 软件总体框架与界面架构图 (点击可放大)</button>
       </div>
 
-      <!-- VirtualCloset 架构图（还原设计报告第4、5页双架构图） -->
-      <div id="vc-arch" class="tab-content active">
-        <div class="arch-box" onclick="openModal('svgVC')">
+      <!-- 选项卡1：真实截图交互切换器 -->
+      <div id="vc-real" class="tab-content active">
+        <div class="gallery-grid">
+          <div class="step-list">
+            <button class="step-btn active" onclick="selectShot(0, this)">
+              ① 欢迎引导页 (Welcome)
+              <small>App 启动引导与痛点场景介绍</small>
+            </button>
+            <button class="step-btn" onclick="selectShot(1, this)">
+              ② 实时天气推送与衣友圈
+              <small>北京13°C / 银川25°C 跨城市穿衣贴士对比</small>
+            </button>
+            <button class="step-btn" onclick="selectShot(2, this)">
+              ③ 我的衣柜与 7 大品类管理
+              <small>外套/上衣/裤子/配饰/鞋子分类上传与网格浏览</small>
+            </button>
+            <button class="step-btn" onclick="selectShot(3, this)">
+              ④ 智能风格选择与 6 宫格新搭配
+              <small>7种穿衣风格筛选 + 上衣/外套/裤/鞋/包/配饰成套生成</small>
+            </button>
+            <button class="step-btn" onclick="selectShot(4, this)">
+              ⑤ 动态发布与多标签筛选
+              <small>支持按时间/热度排序，7大风格 TAG 组合发帖</small>
+            </button>
+            <button class="step-btn" onclick="selectShot(5, this)">
+              ⑥ 个人动态列表与穿搭详情页
+              <small>历史发布动态管理、点赞计数与大图详情展示</small>
+            </button>
+          </div>
+
+          <div class="screen-viewer">
+            <div class="screen-img-wrap" onclick="openModalImg(document.getElementById('vcMainImg').src)">
+              <img id="vcMainImg" src="./vc1.png" onerror="tryAltExt(this)" alt="VirtualCloset 真机运行截图" />
+            </div>
+            <div class="screen-caption" id="vcShotCaption">
+              ① App 启动欢迎页：点击左侧列表可切换查看不同功能模块真机截图（点击图片可全屏放大）
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 选项卡2：VirtualCloset 架构图 -->
+      <div id="vc-arch" class="tab-content">
+        <div class="arch-box" onclick="openModalSvg('svgVC')">
           <svg id="svgVC" viewBox="0 0 880 260" xmlns="http://www.w3.org/2000/svg">
             <rect width="880" height="260" rx="8" fill="#070b14"/>
-            <!-- 左半部分：3.1 软件整体功能架构 -->
             <text x="220" y="28" fill="#38bdf8" font-size="14" text-anchor="middle" font-weight="bold">【3.1 软件整体功能模块架构】</text>
             <rect x="160" y="45" width="120" height="36" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
             <text x="220" y="68" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">VirtualCloset</text>
             <path d="M 220 81 L 220 100 M 65 100 L 375 100 M 65 100 L 65 118 M 170 100 L 170 118 M 275 100 L 275 118 M 375 100 L 375 118" stroke="#64748b" stroke-width="1.5"/>
-            <!-- 四个一级模块 -->
             <rect x="25" y="118" width="80" height="34" rx="5" fill="#1e293b" stroke="#22c55e" stroke-width="1.6"/>
-            <text x="65" y="140" fill="#4ade80" font-size="12" text-anchor="middle" font-weight="bold">衣柜模块</text>
+            <text x="65" y="140" fill="#4ade80" font-size="12" text-anchor="middle" font-weight="bold">我的衣柜</text>
             <rect x="130" y="118" width="80" height="34" rx="5" fill="#1e293b" stroke="#22c55e" stroke-width="1.6"/>
-            <text x="170" y="140" fill="#4ade80" font-size="12" text-anchor="middle" font-weight="bold">搭配模块</text>
+            <text x="170" y="140" fill="#4ade80" font-size="12" text-anchor="middle" font-weight="bold">智能搭配</text>
             <rect x="235" y="118" width="80" height="34" rx="5" fill="#1e293b" stroke="#22c55e" stroke-width="1.6"/>
-            <text x="275" y="140" fill="#4ade80" font-size="12" text-anchor="middle" font-weight="bold">动态广场</text>
+            <text x="275" y="140" fill="#4ade80" font-size="12" text-anchor="middle" font-weight="bold">衣友圈动态</text>
             <rect x="335" y="118" width="80" height="34" rx="5" fill="#1e293b" stroke="#22c55e" stroke-width="1.6"/>
             <text x="375" y="140" fill="#4ade80" font-size="12" text-anchor="middle" font-weight="bold">辅助服务</text>
-            <!-- 子功能叶子节点 -->
             <path d="M 65 152 L 65 178 M 170 152 L 170 178 M 275 152 L 275 178 M 375 152 L 375 178" stroke="#64748b" stroke-width="1.5"/>
             <rect x="20" y="178" width="90" height="52" rx="5" fill="#131c31" stroke="#334155"/>
-            <text x="65" y="200" fill="#cbd5e1" font-size="11" text-anchor="middle">• 衣物拍照上传</text>
-            <text x="65" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">• 品类/风格管理</text>
+            <text x="65" y="200" fill="#cbd5e1" font-size="11" text-anchor="middle">• 7大品类分类</text>
+            <text x="65" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">• 相册上传管理</text>
             <rect x="125" y="178" width="90" height="52" rx="5" fill="#131c31" stroke="#334155"/>
-            <text x="170" y="200" fill="#cbd5e1" font-size="11" text-anchor="middle">• 挑选风格类别</text>
-            <text x="170" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">• 成套穿搭预览</text>
+            <text x="170" y="200" fill="#cbd5e1" font-size="11" text-anchor="middle">• 7大风格标签</text>
+            <text x="170" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">• 6宫格成套生成</text>
             <rect x="230" y="178" width="90" height="52" rx="5" fill="#131c31" stroke="#334155"/>
-            <text x="275" y="200" fill="#cbd5e1" font-size="11" text-anchor="middle">• 穿搭动态发布</text>
-            <text x="275" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">• 风格筛选浏览</text>
+            <text x="275" y="200" fill="#cbd5e1" font-size="11" text-anchor="middle">• 时间/热度排序</text>
+            <text x="275" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">• TAG筛选与点赞</text>
             <rect x="330" y="178" width="90" height="52" rx="5" fill="#131c31" stroke="#334155"/>
-            <text x="375" y="200" fill="#cbd5e1" font-size="11" text-anchor="middle">• 实时天气推送</text>
-            <text x="375" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">• 第三方社交分享</text>
+            <text x="375" y="200" fill="#cbd5e1" font-size="11" text-anchor="middle">• 多城市天气推送</text>
+            <text x="375" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">• 穿衣贴士与分享</text>
 
-            <!-- 分割线 -->
             <line x1="445" y1="20" x2="445" y2="240" stroke="#334155" stroke-dasharray="4 4"/>
 
-            <!-- 右半部分：3.2 框架层界面设计 -->
             <text x="665" y="28" fill="#c084fc" font-size="14" text-anchor="middle" font-weight="bold">【3.2 Android 框架层界面交互设计】</text>
             <rect x="600" y="45" width="130" height="36" rx="6" fill="#1e293b" stroke="#a855f7" stroke-width="2"/>
             <text x="665" y="68" fill="#fff" font-size="13" text-anchor="middle" font-weight="bold">App 视图容器层</text>
             <path d="M 665 81 L 665 100 M 525 100 L 795 100 M 525 100 L 525 118 M 655 100 L 655 118 M 795 100 L 795 118" stroke="#64748b" stroke-width="1.5"/>
             <rect x="475" y="118" width="100" height="34" rx="5" fill="#1e293b" stroke="#38bdf8" stroke-width="1.6"/>
-            <text x="525" y="140" fill="#38bdf8" font-size="12" text-anchor="middle" font-weight="bold">认证界面</text>
+            <text x="525" y="140" fill="#38bdf8" font-size="12" text-anchor="middle" font-weight="bold">欢迎与认证层</text>
             <rect x="605" y="118" width="100" height="34" rx="5" fill="#1e293b" stroke="#38bdf8" stroke-width="1.6"/>
-            <text x="655" y="140" fill="#38bdf8" font-size="12" text-anchor="middle" font-weight="bold">主页看板</text>
+            <text x="655" y="140" fill="#38bdf8" font-size="12" text-anchor="middle" font-weight="bold">衣友圈主看板</text>
             <rect x="740" y="118" width="110" height="34" rx="5" fill="#1e293b" stroke="#38bdf8" stroke-width="1.6"/>
             <text x="795" y="140" fill="#38bdf8" font-size="12" text-anchor="middle" font-weight="bold">侧边栏抽屉导航</text>
             <path d="M 525 152 L 525 178 M 655 152 L 655 178 M 795 152 L 795 178" stroke="#64748b" stroke-width="1.5"/>
             <rect x="470" y="178" width="110" height="52" rx="5" fill="#131c31" stroke="#334155"/>
-            <text x="525" y="200" fill="#cbd5e1" font-size="11" text-anchor="middle">• 账号登录校验</text>
-            <text x="525" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">• 新用户注册</text>
+            <text x="525" y="200" fill="#cbd5e1" font-size="11" text-anchor="middle">• Welcome 引导</text>
+            <text x="525" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">• 登录/注册校验</text>
             <rect x="600" y="178" width="110" height="52" rx="5" fill="#131c31" stroke="#334155"/>
-            <text x="655" y="200" fill="#cbd5e1" font-size="11" text-anchor="middle">• 实时天气卡片</text>
-            <text x="655" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">• 社区动态信息流</text>
+            <text x="655" y="200" fill="#cbd5e1" font-size="11" text-anchor="middle">• 城市天气小贴士</text>
+            <text x="655" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">• 动态广场信息流</text>
             <rect x="730" y="178" width="130" height="52" rx="5" fill="#131c31" stroke="#334155"/>
-            <text x="795" y="200" fill="#cbd5e1" font-size="11" text-anchor="middle">• 衣柜管理 / 智能搭配</text>
-            <text x="795" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">• 账户设置 / 社交分享</text>
+            <text x="795" y="200" fill="#cbd5e1" font-size="11" text-anchor="middle">• 我的衣柜 / 我的搭配</text>
+            <text x="795" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">• 我的动态 / 账户管理</text>
           </svg>
           <div class="zoom-hint">🔍 点击架构图可全屏无损放大查看细节</div>
-        </div>
-      </div>
-
-      <!-- VirtualCloset 手机模拟器交互演示 -->
-      <div id="vc-demo" class="tab-content">
-        <div class="phone-demo-wrap">
-          <div class="phone-mockup">
-            <div class="phone-statusbar">
-              <span>VirtualCloset App</span>
-              <span>4G · 100% 🔋</span>
-            </div>
-            <div class="phone-weather" id="vcWeatherBar" onclick="toggleWeather()" style="cursor: pointer;" title="点击切换模拟天气">
-              <div>
-                <div style="font-weight: 700;" id="vcWeatherTxt">🌤️ 21°C 晴 · 微风</div>
-                <div style="font-size: 0.72rem; opacity: 0.9;" id="vcWeatherTip">穿衣建议：适宜春装风衣/针织叠穿</div>
-              </div>
-              <span style="font-size: 0.7rem; background: rgba(0,0,0,0.25); padding: 0.2rem 0.45rem; border-radius: 4px;">切换天气 ↻</span>
-            </div>
-            <div class="phone-body" id="vcScreenBody">
-              <!-- 动态渲染内容 -->
-            </div>
-            <div class="phone-navbar">
-              <div class="phone-nav-item active" onclick="switchPhoneTab('match', this)">✨ 智能搭配</div>
-              <div class="phone-nav-item" onclick="switchPhoneTab('closet', this)">🧥 我的衣柜</div>
-              <div class="phone-nav-item" onclick="switchPhoneTab('feed', this)">🌍 动态广场</div>
-            </div>
-          </div>
-
-          <div class="control-box">
-            <h4 style="color: #fff; margin-bottom: 0.6rem;">📱 VirtualCloset 核心交互说明</h4>
-            <p style="color: var(--muted); margin-bottom: 0.8rem;">
-              左侧为基于设计文档还原的 Android 客户端交互原型，您可以直接点击手机屏幕内的按钮体验三大核心业务流：
-            </p>
-            <ul class="bullet-list" style="margin-bottom: 0.5rem;">
-              <li><strong>顶部天气栏（点击可切换季节温度）：</strong>模拟调用第三方天气 API，根据气温变化自动调整穿衣指数与推荐厚度。</li>
-              <li><strong>✨ 智能搭配模块：</strong>支持按<strong>「休闲风 / 复古风 / 通勤风」</strong>标签筛选，免去频繁试穿烦恼，一键生成上衣+下装+鞋履成套方案。</li>
-              <li><strong>🧥 我的衣柜 &amp; 🌍 动态广场：</strong>支持按品类数字化管理个人衣物，并在社区广场按风格标签浏览达人穿搭或一键分享至微信/微博。</li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>
@@ -387,7 +384,7 @@
          data-en="Designed to trace leaked video copyright by extracting damaged digital watermarks from video frames, applying OpenCV denoising restoration and OCR decoding.">
          针对非法传播视频的版权溯源需求，提取视频帧中的受损数字水印，通过 OpenCV 图像去噪修复与 OCR 高置信度识别实现自动化解码标注。
       </p>
-      <div class="arch-box" onclick="openModal('svg2')">
+      <div class="arch-box" onclick="openModalSvg('svg2')">
         <svg id="svg2" viewBox="0 0 860 130" xmlns="http://www.w3.org/2000/svg">
           <rect width="860" height="130" rx="8" fill="#070b14"/>
           <rect x="25" y="30" width="170" height="70" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8"/>
@@ -435,8 +432,12 @@
       e.target.classList.add('active');
       document.getElementById(tabId).classList.add('active');
     }
-    function openModal(svgId) {
+    function openModalSvg(svgId) {
       document.getElementById('modalContent').innerHTML = document.getElementById(svgId).outerHTML;
+      document.getElementById('imgModal').classList.add('open');
+    }
+    function openModalImg(src) {
+      document.getElementById('modalContent').innerHTML = `<img src="${src}" alt="高清预览" />`;
       document.getElementById('imgModal').classList.add('open');
     }
     function closeModal() {
@@ -495,74 +496,29 @@
     }
     initParticles(); animate();
 
-    // 项目二：VirtualCloset 手机模拟器逻辑
-    let vcCold = false;
-    let vcStyle = 'casual';
-    let vcTab = 'match';
-    const outfits = {
-      casual: {
-        warm: { title: '👕 宽松廓形卫衣 + 直筒牛仔裤 + 小白鞋', desc: '适用：21°C 春秋日常出行 · 舒适度 98%' },
-        cold: { title: '🧥 短款羽绒服 + 连帽卫衣 + 加绒工装裤', desc: '适用：8°C 降温防风保暖 · 舒适度 96%' }
-      },
-      retro: {
-        warm: { title: '🧥 格纹粗花呢外套 + 高腰百褶裙 + 乐福鞋', desc: '适用：21°C 复古学院风 · 拍照出片推荐' },
-        cold: { title: '🧥 焦糖色双面羊绒大衣 + 麻花毛衣 + 马丁靴', desc: '适用：8°C 经典复古冬装 · 气质保暖兼备' }
-      },
-      office: {
-        warm: { title: '👔 垂感西装外套 + 缎面衬衫 + 九分西裤', desc: '适用：21°C 干练通勤场合 · 免熨烫易打理' },
-        cold: { title: '🧥 中长款羊毛风衣 + 高领羊绒衫 + 切尔西靴', desc: '适用：8°C 商务通勤保暖 · 层次感穿搭' }
-      }
-    };
-    function toggleWeather() {
-      vcCold = !vcCold;
-      document.getElementById('vcWeatherTxt').innerText = vcCold ? '❄️ 8°C 多云 · 寒潮降温' : '🌤️ 21°C 晴 · 微风';
-      document.getElementById('vcWeatherTip').innerText = vcCold ? '穿衣建议：注意防寒，已为您切换冬装厚外套方案' : '穿衣建议：适宜春装风衣/针织叠穿';
-      renderPhoneScreen();
-    }
-    function selectStyle(s) { vcStyle = s; renderPhoneScreen(); }
-    function switchPhoneTab(tab, el) {
-      vcTab = tab;
-      document.querySelectorAll('.phone-nav-item').forEach(i => i.classList.remove('active'));
-      el.classList.add('active');
-      renderPhoneScreen();
-    }
-    function renderPhoneScreen() {
-      const box = document.getElementById('vcScreenBody');
-      if (vcTab === 'match') {
-        const cur = outfits[vcStyle][vcCold ? 'cold' : 'warm'];
-        box.innerHTML = `
-          <div class="style-pills">
-            <span class="pill ${vcStyle==='casual'?'active':''}" onclick="selectStyle('casual')">休闲风</span>
-            <span class="pill ${vcStyle==='retro'?'active':''}" onclick="selectStyle('retro')">复古风</span>
-            <span class="pill ${vcStyle==='office'?'active':''}" onclick="selectStyle('office')">通勤风</span>
-          </div>
-          <div class="outfit-card">
-            <div class="outfit-title">✨ 今日智能推荐方案</div>
-            <div style="color:#38bdf8; margin:0.3rem 0; font-weight:600;">${cur.title}</div>
-            <div class="outfit-sub">${cur.desc}</div>
-          </div>
-          <div class="outfit-card" style="opacity:0.85;">
-            <div class="outfit-title">📦 关联衣柜单品状态</div>
-            <div class="outfit-sub">上装区 (已入库) · 下装区 (已入库) · 鞋履区 (已匹配)</div>
-          </div>`;
-      } else if (vcTab === 'closet') {
-        box.innerHTML = `
-          <div class="outfit-card"><div class="outfit-title">🧥 上装分类 (18件)</div><div class="outfit-sub">卫衣 / 针织衫 / 风衣 / 羊绒大衣</div></div>
-          <div class="outfit-card"><div class="outfit-title">👖 下装与裙装 (12件)</div><div class="outfit-sub">直筒牛仔裤 / 百褶裙 / 通勤西裤</div></div>
-          <div class="outfit-card"><div class="outfit-title">👟 鞋履与配饰 (9件)</div><div class="outfit-sub">乐福鞋 / 小白鞋 / 马丁靴</div></div>`;
-      } else {
-        box.innerHTML = `
-          <div class="outfit-card">
-            <div class="outfit-title">👩 @穿搭达人小鹿 · <span style="color:#38bdf8;font-size:0.72rem;">#复古风</span></div>
-            <div class="outfit-sub">早秋格纹外套配乐福鞋太绝了，省去每天早起翻衣柜的时间！</div>
-          </div>
-          <div class="outfit-card">
-            <div class="outfit-title">🧑 @阿杰今天穿什么 · <span style="color:#4ade80;font-size:0.72rem;">#休闲风</span></div>
-            <div class="outfit-sub">跟着天气推送穿卫衣出门刚刚好，一键分享到微信朋友圈~</div>
-          </div>`;
+    // 项目二：VirtualCloset 真机实拍图切换器（自动兼容 .png / .jpg）
+    const shots = [
+      { base: 'vc1', text: '① App 启动欢迎页：点击右上角「进入应用」开启虚拟衣橱体验（点击图片可全屏放大）' },
+      { base: 'vc2', text: '② 衣友圈与多城市实时天气：左图为北京(13°C)冷色调背景与毛衣/大衣建议，右图为银川(25°C)暖色调与单层薄衫建议' },
+      { base: 'vc5', text: '③ 我的衣柜与分类管理：支持外套、上衣、裤子、长款衣、配饰、鞋子 7 大分类，支持相册上传与网格编号管理' },
+      { base: 'vc4', text: '④ 我的搭配与 6 宫格新搭配：勾选穿衣风格（复古/田园/街头等）与类型，自动组合上衣+外套+裤装+配饰+鞋包成套预览' },
+      { base: 'vc3', text: '⑤ 衣友圈信息流与发布动态：支持按时间/热度排序，发帖支持上传图片并绑定春夏/秋冬/复古等 7 大风格 TAG' },
+      { base: 'vc6', text: '⑥ 我的动态与动态详情：集中管理个人历史穿搭分享，查看点赞互动与高清穿搭大图详情' }
+    ];
+    function tryAltExt(img) {
+      if (img.src.endsWith('.png')) {
+        img.src = img.src.replace('.png', '.jpg');
+      } else if (img.src.endsWith('.jpg')) {
+        img.src = img.src.replace('.jpg', '.jpeg');
       }
     }
-    renderPhoneScreen();
+    function selectShot(idx, btn) {
+      document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const img = document.getElementById('vcMainImg');
+      img.src = './' + shots[idx].base + '.png';
+      document.getElementById('vcShotCaption').innerText = shots[idx].text;
+    }
   </script>
 </body>
 </html>
